@@ -13,6 +13,8 @@
 
 
 
+Route::get('/', ['uses' => 'PostController@index', 'as' => 'posts.index']);
+
 Route::get('/about', function() {
 	return view('about');
 });
@@ -21,4 +23,25 @@ Route::get('/contact', function() {
 	return view('contact');
 });
 
+Route::post('contact', 'PagesController@postContact');
+
 Route::resource('posts', 'PostController');
+
+Route::resource('categories', 'CategoryController');
+
+Route::resource('tags', 'TagController');
+
+Route::post('/posts/{post}', 'CommentController@store');
+Route::get('/comment/{id}/edit', ['uses' => 'CommentController@edit', 'as' => 'comment.edit']);
+Route::put('/comment/{id}', ['uses' => 'CommentController@update', 'as' => 'comment.update']);
+Route::delete('/comment/{id}', ['uses' => 'CommentController@destroy', 'as' => 'comment.destroy']);
+
+
+
+Auth::routes();
+
+
+
+
+
+

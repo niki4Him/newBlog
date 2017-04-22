@@ -2,13 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Post;
 use Session;
+use App\Category;
+use App\Tag;
+use App\Comment;
+use Image;  
+
 
 class PostController extends Controller
 {
+    
+
+    public function __construct()
+    {
+      $this->middleware('auth', ['except' => ['index']]);
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +32,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(9);
+        $posts = Post::orderBy('id', 'desc')->paginate(6);
         return view('posts.index', compact('posts'));
     }
 
@@ -27,7 +43,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -41,15 +59,33 @@ class PostController extends Controller
         $this->validate($request, [
 
             'title' => 'required|max:250',
-            'body' => 'required'
+            'body' => 'required',
+            'category_id' => 'required|integer',
+            'images' => 'sometimes|image'
 
 
             ]);
 
         $post = new Post;
+        $post->user_id = Auth::user()->id;
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->category_id = $request->category_id;
+
+        if ($request->hasFile('images')) {
+
+            $images = $request->file('images');
+            $filename = time() . '.' . $images->getClientOriginalExtension();
+            // $filename = $images->getClientOriginalName();
+            //$request->file('images')->move('images', $images2);
+            $location = public_path('images/'.$filename);
+            Image::make($images)->resize(800, 400)->save($location);
+            $post->images = $filename;
+        }
+
         $post->save();
+
+        $post->tags()->sync($request->tags, false);
 
         Session::flash('success', 'Your Blog post was successfully save!');
 
@@ -64,6 +100,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        $post = Post::all();
         $post = Post::findOrFail($id);
         return view('posts.show', compact('post')); 
     }
@@ -77,8 +114,14 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
+        if (Auth::user()->id == $post->user_id) {
+             $categories = Category::all();
 
-        return view('posts.edit', compact('post'));
+             $tags = Tag::all();
+
+
+            return view('posts.edit', compact('post','categories', 'tags'));
+        }
 
         return redirect()->back();
     }
@@ -95,20 +138,46 @@ class PostController extends Controller
         $this->validate($request, [
 
             'title' => 'required|max:250',
-            'body' => 'required'
+            'body' => 'required',
+            'images' => 'image'
 
 
             ]);
 
        $post = Post::findOrFail($id);
 
-       $post->title = $request->title;
-       $post->body = $request->body;
+        if (Auth::user()->id == $post->user_id) {
+           $post->title = $request->title;
+           $post->body = $request->body;
+           $post->category_id = $request->category_id;
+
+           if ($request->hasFile('images')) {
+
+            $images = $request->file('images');
+            $filename = time() . '.' . $images->getClientOriginalExtension();
+            // $filename = $images->getClientOriginalName();
+            //$request->file('images')->move('images', $images2);
+            $location = public_path('images/'.$filename);
+            Image::make($images)->resize(800, 400)->save($location);
+            $oldfilename = $post->images;
+
+            $post->images = $filename;
+            Storage::delete($oldfilename);
+
+            }
 
        $post->save();
 
-       Session::flash('success', 'Your Blog post was successfully update!');
+       if (isset($request->tags)) {
+          $post->tags()->sync($request->tags);
+       } else {
+            $post->tags()->sync(array());
+       }
+       
 
+        Session::flash('success', 'Your Blog post was successfully update!');
+        }
+       
        return redirect()->route('posts.show', $post->id);
     
     }
@@ -121,6 +190,20 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        if (Auth::user()->id == $post->user_id) {
+        $post->tags()->detach();
+        Storage::delete($post->images);
+            
+            $post->delete();
+
+            Session::flash('success', 'Your Blog post was successfully delete!');
+
+        }
+    
+        return redirect()->route('posts.index');
     }
+    
+
+   
 }

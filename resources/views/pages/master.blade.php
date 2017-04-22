@@ -8,6 +8,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
      <link rel="stylesheet" type="text/css" href="{{ asset('css/parsley.css') }}">
+     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+
+">
   </head>
   <body style="background-color: #e6e7f2">
     <div class="container-fluid">
@@ -20,7 +24,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item{{Request::is('/posts') ? 'active' : ""}}">
-            <a class="nav-link" href="http://localhost:8000/posts">Home</a>
+            <a class="nav-link" href="http://localhost:8000/">Home</a>
           </li>
           <li class="nav-item {{Request::is('/about') ? 'active' : ""}}">
             <a class="nav-link" href="http://localhost:8000/about">About</a>
@@ -30,16 +34,28 @@
           </li>
         </ul>
         <ul class="navbar-nav float-xs-right">
+           <ul class="nav navbar-nav float-xs-right">
+        @if(Auth::user())
+             <li class="nav-item">
+               <a class="nav-link" href="#">Welcome: {{ Auth::user()->name }}</a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="{{ url('/logout') }}" 
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">         Logout</a><form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+             </li>
+        @else
           <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            my acount
+           Action
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="http://localhost:8000/login">Login</a>
+            <a class="dropdown-item" href="http://localhost:8000/register">Register</a>
           </div>
           </li>
+        @endif
       </ul>
   </div>
 </nav>
@@ -75,7 +91,17 @@
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
    <script type="text/javascript" src="{{ asset('js/jquery-3.2.0.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/parsley.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script>
+    @yield('JScript')
+    <script>
+          $(document).ready(function(){
+            $('.select2-multi').select2();
+
+
+           }); 
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    @yield('scripts')
   </body>
 </html>

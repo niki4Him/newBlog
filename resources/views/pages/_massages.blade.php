@@ -1,6 +1,6 @@
 @if (Session::has('success'))
 
-<div class="col-sm-4">
+<div class="col-sm-6">
  <div class="alert alert-success" role="alert">
  	<strong>Success:</strong> {{ Session::get('success') }}
  </div>
@@ -11,7 +11,7 @@
 
 @if (count($errors) > 0)
 	
-	<div class="col-sm-4">
+	<div class="col-sm-6">
 	 <div class="alert alert-danger" role="alert">
 	 	<strong>Errors:</strong> 
 	 	<ul>
