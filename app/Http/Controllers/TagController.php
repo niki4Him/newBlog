@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Tag;
 use Session;
 
+
 class TagController extends Controller
 {   
 
@@ -114,5 +115,14 @@ class TagController extends Controller
         Session::flash('success', 'Your Tag was successfully delete!');
 
         return redirect()->route('tags.index');
+    }
+
+    public function getTags(Tag $tag)
+    {
+        
+        
+        $posts = $tag->posts()->latest()->paginate(6);
+
+        return view('posts.index', compact('posts'));
     }
 }

@@ -41,7 +41,9 @@
 				 </select>
 			</div> 
 			<div class="form-group">
+				@if ($post->images)
 				<img src="{{ asset('images/'. $post->images) }}" alt="" height="60" width="60">
+				@endif
                   <label for="InputFile">Image</label>
                   <input type="file" name="images" class="form-control-file" id="InputFile" aria-describedby="fileHelp" style="margin-top: 5px" ">
             </div>

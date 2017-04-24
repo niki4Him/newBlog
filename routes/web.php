@@ -29,6 +29,10 @@ Route::resource('posts', 'PostController');
 
 Route::resource('categories', 'CategoryController');
 
+Route::get('/posts/category/{category}', 'CategoryController@getCategory');
+
+Route::get('/posts/tags/{tag}', 'TagController@getTags');
+
 Route::resource('tags', 'TagController');
 
 Route::post('/posts/{post}', 'CommentController@store');

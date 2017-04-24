@@ -32,7 +32,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->paginate(6);
+        $posts = Post::latest()->filter(request(['month', 'year']))->paginate(6);
+
+            
+       
+
+
+
         return view('posts.index', compact('posts'));
     }
 

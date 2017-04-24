@@ -14,4 +14,11 @@ class Category extends Model
     
     return $this->hasMany('App\Post');
 	}
+
+	public function getRouteKeyName()
+    {
+    	return 'name';
+
+   	}
+
 }

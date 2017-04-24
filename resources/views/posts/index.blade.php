@@ -51,8 +51,24 @@
           <div class="sidebar-module">
             <h4>Archives</h4>
             <ol class="list-unstyled">
-              @foreach($posts as $post)
-              <li><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></li>
+              @foreach($archives as $stats)
+              <li><a href="/?month={{ $stats['month'] }}&year={{ $stats['year'] }}">{{ $stats['month'] . ' ' . $stats['year'] }}</a></li>
+              @endforeach
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>Categories</h4>
+            <ol class="list-unstyled">
+              @foreach($categories as $category)
+              <li><a href="/posts/category/{{$category}}">{{ $category }}</a></li>
+              @endforeach
+            </ol>
+          </div>  
+          <div class="sidebar-module">
+            <h4>Tags</h4>
+            <ol class="list-unstyled">
+              @foreach($tags as $tag)
+              <li><a href="/posts/tags/{{$tag}}">{{ $tag }}</a></li>
               @endforeach
             </ol>
           </div>
@@ -69,8 +85,10 @@
       </div><!-- /.row -->
         <br>
         <br>
-      {{$posts->links('vendor.pagination.bootstrap-4')}}
 
+      {!! $posts->links('vendor.pagination.bootstrap-4') !!}
+      
+      
     </div><!-- /.container -->
 
 

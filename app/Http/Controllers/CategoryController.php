@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use Session;
-
+use App\Post;
 
 class CategoryController extends Controller
 {
@@ -19,11 +19,14 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+
     {
+    
         $categories = Category::all();
 
         return view('categories.index', compact('categories'));
     }
+    
 
 
     /**
@@ -92,4 +95,17 @@ class CategoryController extends Controller
     {
         //
     }
+
+    public function getCategory(Category $category)
+    
+    {
+        
+        $posts = $category->posts()->latest()->paginate(6);
+
+
+
+        return view('posts.index', compact('posts'));
+    }
+
+
 }

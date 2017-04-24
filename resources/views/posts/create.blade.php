@@ -35,7 +35,7 @@
 				 </select>
 			</div> 
 			<div class="form-group">
-                  <label for="InputFile">Image</label>
+                  <label for="InputFile">Image:</label>
                   <input type="file" name="images" class="form-control-file" id="InputFile" aria-describedby="fileHelp">
             </div>
 			<div class="form-group">
