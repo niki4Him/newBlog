@@ -35,8 +35,8 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/posts') }}">
-                        {{ config('app.name', 'newBlog') }}
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        newBlog
                     </a>
                 </div>
 

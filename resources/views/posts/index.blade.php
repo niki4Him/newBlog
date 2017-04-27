@@ -8,7 +8,9 @@
       <div class="container">
         <h1 class="blog-title">Christian's blog</h1>
         <p class="lead blog-description">Here we can discuss any topic</p>
+       {{-- @can('create-post')  --}}
         <a href="/posts/create" class="btn btn-link" style="margin-left: 37%; font-style: italic; text-decoration: none">Create New Post +</a>
+        {{-- @endcan --}} 
         <a href="/tags/" class="btn btn-link" style="font-style: italic; text-decoration: none">Create New Tag +</a>
         <a href="/categories/" class="btn btn-link" style="font-style: italic; text-decoration: none">Create New Category +</a>
       </div>
@@ -27,7 +29,7 @@
             @if ($post->images) 
             <img src="{{ asset('images/'. $post->images) }}" alt="" height="60" width="60">
             @endif
-              {{ $post->created_at->diffForHumans() }} / created by: {{ $post->user->name }}</p>
+              {{ $post->created_at->diffForHumans() }} / created by: {{ $post->user['name'] }}</p>
             <p>{{ substr(strip_tags($post->body), 0, 300) }}{{strlen(strip_tags($post->body)) > 300 ? "..." : ""}}</p>
             <span class="text-muted">category: {{ $post->category['name'] }}</span>
              @if ($post->comments->count() > 0 )

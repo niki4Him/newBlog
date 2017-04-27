@@ -12,6 +12,8 @@ use App\Category;
 use App\Tag;
 use App\Comment;
 use Image;  
+use Gate;
+use App\Http\Requests\UpdaPost as UpdatePostRequest;
 
 
 class PostController extends Controller
@@ -77,6 +79,7 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->body = $request->body;
         $post->category_id = $request->category_id;
+        $post['slug'] = str_slug($post['title']);
 
         if ($request->hasFile('images')) {
 
@@ -207,6 +210,26 @@ class PostController extends Controller
 
         }
     
+        return redirect()->route('posts.index');
+    }
+
+    public function drafts()
+
+    {
+        $postsQuery = Post::unpublished();
+        if (Gate::denies('see-all-drafts')) {
+            $postsQuery = $postsQuery->where('user_id', Auth::user()->id);
+        }
+
+        $posts = $postsQuery->paginate();
+        return view('posts.drafts', compact('posts'));
+    }
+
+    public function publish(Post $post)
+    {
+        $post->published = true;
+        $post->save();
+        
         return redirect()->route('posts.index');
     }
     

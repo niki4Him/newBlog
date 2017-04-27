@@ -25,6 +25,31 @@ Route::get('/contact', function() {
 
 Route::post('contact', 'PagesController@postContact');
 
+// Post Routes//
+Route::get('/', 'PostController@index')->name('list_posts');
+Route::group(['prefix' => 'posts'], function () {
+    Route::get('/drafts', 'PostController@drafts')
+        ->name('list_drafts')
+        ->middleware('auth');
+      Route::get('/publish/{post}', 'PostController@publish')
+        ->name('publish_post')
+        ->middleware('can:publish-post');
+    Route::get('/create', 'PostController@create')
+        ->name('create_post')
+        ->middleware('can:create-post');
+    Route::post('/posts', 'PostController@store')
+        ->name('store_post')
+        ->middleware('can:create-post');
+    Route::get('/posts/{post}/edit', 'PostController@edit')
+        ->name('edit_post')
+        ->middleware('can:update-post,post');
+    Route::post('posts/{post} ', 'PostController@update')
+        ->name('update_post')
+        ->middleware('can:update-post,post');
+});
+
+
+
 Route::resource('posts', 'PostController');
 
 Route::resource('categories', 'CategoryController');

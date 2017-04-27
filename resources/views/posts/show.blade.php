@@ -16,7 +16,7 @@
                @if ($post->images) 
               <img src=" {{ asset('images/'. $post->images) }} " alt="" height="60" width="60">
               @endif
-               created by: {{ $post->user->name }} // category: {{ $post->category['name'] }} </span>
+               created by: {{ $post->user['name'] }} // category: {{ $post->category['name'] }} </span>
               <h2 class="card-title">{{ $post->title }}</h2>
               <p class="card-text"><i>  {!! $post->body !!} </i></p>     
               <div class="card-footer">

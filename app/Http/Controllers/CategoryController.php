@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use Session;
-use App\Post;
+
 
 class CategoryController extends Controller
 {

@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(PostTableSeeder::class);
 
+        $this->call(\RolesSeeder::class);
+
 
         Model::reguard();
     }

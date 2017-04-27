@@ -10,6 +10,11 @@ class Post extends Model
 {
     protected $table = 'posts';
 
+    protected $fillable = [
+        'title', 'slug', 'body', 'user_id', 'category_id', 'images',
+
+    ];
+
 
     public function user() 
     {
@@ -43,6 +48,9 @@ class Post extends Model
         if ($year = $filters['year']) {
           $query->whereYear('created_at', $year);
          }
+
+
+
     }
 
 
@@ -57,5 +65,15 @@ class Post extends Model
         ->get()
 
         ->toArray();
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published', true);
+    }
+
+    public function scopeUnpublished($query)
+    {
+        return $query->where('published', false);
     }
 }
