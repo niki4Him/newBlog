@@ -13,7 +13,7 @@
 
 
 
-Route::get('/', ['uses' => 'PostController@index', 'as' => 'posts.index']);
+Route::get('/', 'PostController@index')->name('posts.index');
 
 Route::get('/about', function() {
 	return view('about');
@@ -61,11 +61,9 @@ Route::get('/posts/tags/{tag}', 'TagController@getTags');
 Route::resource('tags', 'TagController');
 
 Route::post('/posts/{post}', 'CommentController@store');
-Route::get('/comment/{id}/edit', ['uses' => 'CommentController@edit', 'as' => 'comment.edit']);
-Route::put('/comment/{id}', ['uses' => 'CommentController@update', 'as' => 'comment.update']);
-Route::delete('/comment/{id}', ['uses' => 'CommentController@destroy', 'as' => 'comment.destroy']);
-
-
+Route::get('/comment/{id}/edit', 'CommentController@edit')->name('comment.edit');
+Route::put('/comment/{id}', 'CommentController@update')->name('comment.update');
+Route::delete('/comment/{id}', 'CommentController@destroy')->name('comment.destroy');
 
 Auth::routes();
 
