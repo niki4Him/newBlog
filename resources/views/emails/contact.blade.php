@@ -7,11 +7,13 @@
 
 <div class="container">
 	<div class="col-sm-5">
-		<h2>You Have a New Contact Via the Contact Form</h2>
+		<h2>Sent to new Users</h2>
 
 		<div class="card-block">
-			<div class="card-title">{{ $bodyMessage }}</div>
-			<p class="card-text">{{ $email }}</p>
+			<form action="{{ route('sendMail')}}" method="POST">
+			 {{ csrf_field() }}
+			 	<button type="submit" class="btn btn-info">Send Mail</button>
+			</form>
 		</div>
 	
 	</div>

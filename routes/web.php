@@ -25,6 +25,9 @@ Route::get('/contact', function() {
 
 Route::post('contact', 'PagesController@postContact');
 
+Route::get('/email', 'PagesController@mail');
+Route::post('/email', 'PagesController@email')->name('sendMail');
+
 // Post Routes//
 Route::get('/', 'PostController@index')->name('list_posts');
 Route::group(['prefix' => 'posts'], function () {
