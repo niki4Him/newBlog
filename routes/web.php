@@ -68,6 +68,12 @@ Route::get('/comment/{id}/edit', 'CommentController@edit')->name('comment.edit')
 Route::put('/comment/{id}', 'CommentController@update')->name('comment.update');
 Route::delete('/comment/{id}', 'CommentController@destroy')->name('comment.destroy');
 
+
+Route::prefix('admin')->group(function() {
+    Route::get('/login/form', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('/login/form', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+});
+
 Auth::routes();
 
 
