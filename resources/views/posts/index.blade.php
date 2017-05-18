@@ -88,7 +88,7 @@
         <br>
         <br>
 
-      {!! $posts->links('vendor.pagination.bootstrap-4') !!}
+      {!!  $posts->appends(['s' => $s])->links('vendor.pagination.bootstrap-4') !!}
       
       
     </div><!-- /.container -->

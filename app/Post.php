@@ -76,4 +76,9 @@ class Post extends Model
     {
         return $query->where('published', false);
     }
+
+    public function scopeSearch($query, $s)
+    {
+        return $query->where('title', 'like', '%' .$s. '%');
+    }
 }

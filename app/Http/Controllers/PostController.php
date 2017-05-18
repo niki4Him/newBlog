@@ -32,16 +32,20 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::latest()->filter(request(['month', 'year']))->paginate(6);
+
+        $s = $request->input('s');
+        $posts = Post::latest()->filter(request(['month', 'year']))->search($s)->paginate(6);
 
             
        
 
 
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', compact('posts', 's'));
+
+
     }
 
     /**
@@ -230,7 +234,10 @@ class PostController extends Controller
         $post->save();
         
         return redirect()->route('posts.index');
+
     }
+
+    
     
 
    

@@ -35,6 +35,10 @@
         </ul>
         <ul class="navbar-nav float-xs-right">
            <ul class="nav navbar-nav float-xs-right">
+           <form class="form-inline" method="GET" action={{ route('posts.index') }} enctype="multipart/form-data">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search" name="s" value="{{ isset($s) ? $s : '' }}">
+              <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
+            </form>
         @if(Auth::user())
              <li class="nav-item">
                <a class="nav-link" href="#">Welcome: {{ Auth::user()->name }}</a>
