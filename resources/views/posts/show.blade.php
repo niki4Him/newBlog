@@ -63,6 +63,8 @@
             <hr>
         
             <p>{{ $comment->comment }}</p>
+            <button class="btn btn-default btn-sm float-left" id="{{ $comment->id}}-count">{{$comment->likes()->count() }}</button>
+            <button class="btn btn-default btn-sm float-left"><i class="fa fa-heart" aria-hidden="true" {{ $comment->isLiked()?"liked":"" }} onclick="likeIt('{{$comment->id}}', this)"></i></button>
             @if (Auth::User()->id == $comment->user_id)
             <div class="btns">
             <form action="{{ route('comment.destroy', $comment->id) }}" method="POST">
@@ -121,3 +123,5 @@
 
 
 @stop
+
+@include('pages._likes')

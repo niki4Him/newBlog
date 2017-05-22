@@ -74,6 +74,8 @@ Route::prefix('admin')->group(function() {
     Route::post('/login/form', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 });
 
+Route::post('comment/like','LikeController@toggleLike')->name('toggleLike');
+
 Auth::routes();
 
 
